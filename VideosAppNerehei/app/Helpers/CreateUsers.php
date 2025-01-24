@@ -1,7 +1,5 @@
 <?php
 
-// app/Helpers/CreateUsers.php
-
 namespace App\Helpers;
 
 use App\Models\User;
@@ -11,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CreateUsers
 {
-    public function creacioUsuariDefecte(array $user)
+    static public function creacioUsuariDefecte(array $user)
     {
         Validator::make($user, [
             'name' => ['required', 'string', 'max:255'],
@@ -25,12 +23,12 @@ class CreateUsers
                 'email' => $user['email'],
                 'password' => Hash::make($user['password']),
             ]), function (User $user) {
-                $this->creacioTeam($user);
+                self::creacioTeam($user);
             });
         });
     }
 
-    protected function creacioTeam(User $user)
+    static protected function creacioTeam(User $user)
     {
         // Create a team for the user
         $user->ownedTeams()->create([
@@ -39,5 +37,3 @@ class CreateUsers
         ]);
     }
 }
-
-
