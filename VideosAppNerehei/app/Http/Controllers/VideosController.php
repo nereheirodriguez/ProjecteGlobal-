@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
+use App\Models\Test;
 use Illuminate\Http\Request;
 
 class VideosController extends Controller
@@ -14,14 +15,24 @@ class VideosController extends Controller
     }
 
     /**
-     * Display the videos tested by a specific user.
+     * Display the test class for videos tested by a specific user.
      *
      * @param  int  $userId
      * @return \Illuminate\Http\Response
      */
     public function testedBy($userId)
     {
-        $videos = Video::where('tested_by', $userId)->get();
-        return response()->json($videos);
+        // Obtenim els tests realitzats per l'usuari
+        $tests = Test::where('tested_by', $userId)->get();
+
+        return response()->json($tests);
+    }
+    public function index()
+    {
+        $tests = Test::where('some_column', 'some_value')->get();
+        $videos = Video::all();
+        return view('videos.index', compact('videos'));
+        $tests = Test::where('some_column', 'some_value')->get();
+
     }
 }

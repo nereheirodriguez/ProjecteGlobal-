@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $authServiceProvider = new AuthServiceProvider($this->app);
+        $authServiceProvider->registerPolicies();
+        $authServiceProvider->define_gates();
+        $authServiceProvider->create_permissions();
     }
 }

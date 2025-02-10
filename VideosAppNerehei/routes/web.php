@@ -18,3 +18,4 @@ Route::middleware([
 });
 
 Route::get('/videos/{id}', [VideosController::class, 'show'])->name('videos.show');
+Route::get('/videos', [VideosController::class, 'index'])->name('videos.index');

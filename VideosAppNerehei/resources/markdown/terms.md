@@ -24,3 +24,25 @@ El principal objectiu és desenvolupar una aplicació web similar a YouTube que 
 - Es va instal·lar i configurar Larastan per analitzar el codi, detectar errors i corregir-los.
 
 Aquest treball permet establir una base sòlida per a continuar desenvolupant funcionalitats més avançades als propers sprints.
+
+
+## Sprint 3
+- En aquest sprint s'han realitzat les següents tasques principals:
+
+- Correcció d'errors del 2n sprint.
+- Gestió de permisos: Instal·lació del paquet spatie/laravel-permission i definició dels permisos per als diferents rols d'usuari.
+- Modificació del model d’usuaris: Creació de la migració per afegir el camp super_admin, i implementació de les funcions testedBy() i isSuperAdmin().
+- Creació i gestió d'usuaris:
+- Modificació de create_default_professor per afegir el rol de superadmin.
+- Nova funció add_personal_team() per gestionar la creació d’equips.
+- Creació de funcions per generar usuaris predeterminats:
+- create_regular_user()
+- create_video_manager_user()
+- create_superadmin_user()
+- Definició de permisos i portes d’accés a AppServiceProvider.
+- Actualització del DatabaseSeeder amb permisos i usuaris per defecte (superadmin, regular user, video manager).
+- Publicació i personalització dels stubs en Laravel.
+- Tests:
+- VideosManageControllerTest a tests/Feature/Videos, amb proves sobre la gestió de vídeos segons els permisos.
+- UserTest a tests/Unit, per comprovar la funció isSuperAdmin().
+- Verificació de codi amb Larastan per garantir qualitat i seguretat.
