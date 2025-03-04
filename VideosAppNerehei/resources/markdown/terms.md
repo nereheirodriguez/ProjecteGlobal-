@@ -46,3 +46,38 @@ Aquest treball permet establir una base sòlida per a continuar desenvolupant fu
 - VideosManageControllerTest a tests/Feature/Videos, amb proves sobre la gestió de vídeos segons els permisos.
 - UserTest a tests/Unit, per comprovar la funció isSuperAdmin().
 - Verificació de codi amb Larastan per garantir qualitat i seguretat.
+
+## Sprint 4
+- Tasques realitzades:
+
+- Corregir errors del 3r sprint: S'han corregit els errors detectats, especialment aquells relacionats amb els permisos d'accés a la ruta /videos_manage.
+
+- Crear el controlador VideosManageController: Es van implementar les funcions index, store, show, edit, update, delete i destroy per a la gestió de vídeos mitjançant CRUD.
+
+- Afegir la funció index al VideosController: Es va implementar la funció index per mostrar els vídeos disponibles.
+
+- Afegir vídeos de prova: Es va garantir que estiguessin creats tres vídeos de prova en els helpers i que es trobessin al DatabaseSeeder.
+
+- Crear vistes per al CRUD de vídeos:
+
+- index.blade.php: mostra la taula de vídeos.
+- create.blade.php: formulari per afegir vídeos amb l'atribut data-qa.
+- edit.blade.php: permet editar vídeos existents.
+- delete.blade.php: confirmació per eliminar vídeos.
+- Vista de vídeos a la pàgina principal: Es va crear la vista index.blade.php per mostrar tots els vídeos de manera semblant a YouTube, amb enllaços per veure el detall de cada vídeo.
+
+- Modificació de tests:
+
+- Es va modificar el test user_with_permissions_can_manage_videos() per assegurar-se que els vídeos estiguin correctament gestionats.
+- Es van crear nous tests per comprovar el comportament de l'aplicació amb diferents tipus d'usuari.
+- Afegir permisos per la gestió de vídeos: Es van afegir els permisos per a la gestió de vídeos als helpers i es van assignar als usuaris corresponents.
+
+- Afegir funcions de test a VideosManageControllerTest: Es van crear tests per verificar que els usuaris amb permisos poden afegir, actualitzar i eliminar vídeos.
+
+- Creació de rutes per al CRUD de vídeos: Les rutes per al CRUD de vídeos es van protegir amb els permisos corresponents, assegurant que només els usuaris autenticats i amb permisos puguin accedir-hi.
+
+- Navbar i footer: Es va afegir un navbar i un footer a la plantilla resources/layouts/videosapp, permetent la navegació entre pàgines.
+
+- Actualització de la documentació: Es va afegir la informació corresponent d’aquest sprint a la documentació del projecte en resources/markdown/terms.
+
+- Revisió de codi amb Larastan: Es va revisar el codi mitjançant Larastan per assegurar la seva qualitat i seguretat.

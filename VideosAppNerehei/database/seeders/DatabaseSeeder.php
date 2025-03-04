@@ -2,47 +2,39 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\CreateUsers;
+use App\helpers\UserHelper;
 use App\Helpers\video_helpers;
+use App\helpers\VideoHelpers;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\Video;
-use Illuminate\Database\Seeder;
-use App\Helpers\CreateUsers;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run() : void
+    public function run(): void
     {
         User::truncate();
         Video::truncate();
         Role::truncate();
+        Permission::truncate();
 
-        video_helpers::getDefaultValues();
+        CreateUsers::create_role_and_permissions();
 
-        // Create Roles
-        $superAdminRole = Role::create(['name' => 'super-admin']);
-        $regularUserRole = Role::create(['name' => 'regular-user']);
-        $videoManagerRole = Role::create(['name' => 'video-manager']);
+        CreateUsers::create_regular_user();
 
-        // Create default users
-        $superAdmin = CreateUsers::create_superadmin_user();
-        $regularUser = CreateUsers::create_regular_user();
-        $videoManager = CreateUsers::create_video_manager_user();
+        $admin = CreateUsers::create_superadmin_user();
+        $admin->assignRole('super_admin');
 
-        // Assign permissions to users
-        if ($superAdmin) {
-            $superAdmin->givePermissionTo('manage videos');
-            $superAdmin->givePermissionTo('manage users');
-        }
-
-        if ($videoManager) {
-            $videoManager->givePermissionTo('manage videos');
-        }
+        $manager = CreateUsers::create_video_manager_user();
+        $manager->assignRole('video_manager');
+        video_helpers::createFirstVideo();
+        video_helpers::createSecondVideo();
+        video_helpers::createThirdVideo();
     }
 }

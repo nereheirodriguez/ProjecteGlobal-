@@ -29,10 +29,8 @@ class VideosController extends Controller
     }
     public function index()
     {
-        $tests = Test::where('some_column', 'some_value')->get();
         $videos = Video::all();
         return view('videos.index', compact('videos'));
-        $tests = Test::where('some_column', 'some_value')->get();
 
     }
 }

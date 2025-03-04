@@ -10,8 +10,7 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function isSuperAdmin()
+    public function test_isSuperAdmin()
     {
         $superAdmin = User::factory()->create(['super_admin' => true]);
         $regularUser = User::factory()->create(['super_admin' => false]);

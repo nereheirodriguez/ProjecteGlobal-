@@ -7,9 +7,13 @@ use App\Models\Team;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class CreateUsers
 {
+
+    //DOCUMENTAR PUNT 12
     static public function creacioUsuariDefecte(array $user)
     {
         Validator::make($user, [
@@ -51,54 +55,71 @@ class CreateUsers
 
     static public function create_regular_user()
     {
-        if (!User::where('email', 'regular@videosapp.com')->exists()) {
-            $user = User::create([
-                'name' => 'Regular User',
-                'email' => 'regular@videosapp.com',
-                'password' => bcrypt('123456789'),
-                'super_admin' => false,
-            ]);
+        $user = User::create([
+            'name' => 'Regular User',
+            'email' => 'regular@videosapp.com',
+            'password' => bcrypt('123456789'),
+            'super_admin' => false,
+        ]);
 
-            self::add_personal_team($user);
+        self::add_personal_team($user);
 
-            return $user;
-        }
+        return $user;
+
     }
 
     static public function create_video_manager_user()
     {
-        if (!User::where('email', 'videosmanager@videosapp.com')->exists()) {
-            $user = User::create([
-                'name' => 'Video Manager',
-                'email' => 'videosmanager@videosapp.com',
-                'password' => bcrypt('123456789'),
-                'super_admin' => false,
-            ]);
-            $team = Team::create([
-                'user_id' => $user->id,
-                'name' => 'Video Manager Team',
-                'personal_team' => true,
-            ]);
-            $user->current_team_id = $team->id;
+        $user = User::create([
+            'name' => 'Video Manager',
+            'email' => 'videosmanager@videosapp.com',
+            'password' => bcrypt('123456789'),
+            'super_admin' => false,
+        ]);
+        self::add_personal_team($user);
 
+        return $user;
 
-            return $user;
-        }
     }
 
     static public function create_superadmin_user()
     {
-        if (!User::where('email', 'superadmin@videosapp.com')->exists()) {
-            $user = User::create([
-                'name' => 'Super Admin',
-                'email' => 'superadmin@videosapp.com',
-                'password' => bcrypt('123456789'),
-                'super_admin' => true,
-            ]);
+        $user = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@videosapp.com',
+            'password' => bcrypt('123456789'),
+            'super_admin' => true,
+        ]);
 
-            self::add_personal_team($user);
+        self::add_personal_team($user);
 
-            return $user;
+        return $user;
+    }
+
+    static public function create_role_and_permissions()
+    {
+        $permissions = [
+            'super_admin',
+            'video_manager',
+        ];
+
+        foreach ($permissions as $perm) {
+            if (!Permission::where('name', $perm)->exists()) {
+                Permission::create(['name' => $perm]);
+            }
+        }
+
+        $adminRole = Role::firstOrCreate(['name' => 'super_admin']);
+        $videoManagerRole = Role::firstOrCreate(['name' => 'video_manager']);
+
+        if (!$adminRole->hasPermissionTo('super_admin')) {
+            $adminRole->givePermissionTo('super_admin');
+        }
+        if (!$adminRole->hasPermissionTo('video_manager')) {
+            $adminRole->givePermissionTo('video_manager');
+        }
+        if (!$videoManagerRole->hasPermissionTo('video_manager')) {
+            $videoManagerRole->givePermissionTo('video_manager');
         }
     }
 }
