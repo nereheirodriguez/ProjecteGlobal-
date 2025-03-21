@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Helpers;
 
+use App\Models\User;
 use App\Models\Video;
 
 class video_helpers
@@ -15,6 +15,7 @@ class video_helpers
             'published_at' => now(),
             'next' => null,
             'series_id' => null,
+            'user_id' => User::factory()->create()->id,
         ]);
     }
 
@@ -27,6 +28,8 @@ class video_helpers
             'published_at' => now(),
             'next' => null,
             'series_id' => null,
+            'user_id' => User::factory()->create()->id,
+
         ]);
     }
 
@@ -39,6 +42,7 @@ class video_helpers
             'published_at' => now(),
             'next' => null,
             'series_id' => null,
+            'user_id' => User::factory()->create()->id,
         ]);
     }
 }

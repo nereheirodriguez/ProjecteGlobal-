@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideosManagerController extends Controller
 {
@@ -24,9 +25,11 @@ class VideosManagerController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'url' => 'required|url',
+
         ]);
 
         $validatedData['published_at'] = now();
+        $validatedData['user_id'] = Auth::id();
 
         $video = Video::create($validatedData);
         return redirect()->route('videos.show', $video->id);

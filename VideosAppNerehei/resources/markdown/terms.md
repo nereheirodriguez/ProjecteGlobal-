@@ -48,36 +48,132 @@ Aquest treball permet establir una base sòlida per a continuar desenvolupant fu
 - Verificació de codi amb Larastan per garantir qualitat i seguretat.
 
 ## Sprint 4
-- Tasques realitzades:
 
-- Corregir errors del 3r sprint: S'han corregit els errors detectats, especialment aquells relacionats amb els permisos d'accés a la ruta /videos_manage.
+- En aquest sprint s'han realitzat les següents tasques principals:
 
-- Crear el controlador VideosManageController: Es van implementar les funcions index, store, show, edit, update, delete i destroy per a la gestió de vídeos mitjançant CRUD.
+- Correcció d'errors del 3r sprint, amb especial atenció als tests per garantir que els usuaris amb els permisos adequats puguin accedir a la ruta /videosmanage.
 
-- Afegir la funció index al VideosController: Es va implementar la funció index per mostrar els vídeos disponibles.
+- Creació del VideosManageController amb les funcions: testedBy(), index(), store(), show(), edit(), update(), delete(), i destroy().
 
-- Afegir vídeos de prova: Es va garantir que estiguessin creats tres vídeos de prova en els helpers i que es trobessin al DatabaseSeeder.
+- Creació de la funció index() al VideosController per gestionar la visualització dels vídeos.
 
-- Crear vistes per al CRUD de vídeos:
+- Revisió que tinguessin 3 vídeos creats a helpers i afegits al DatabaseSeeder.
 
-- index.blade.php: mostra la taula de vídeos.
-- create.blade.php: formulari per afegir vídeos amb l'atribut data-qa.
-- edit.blade.php: permet editar vídeos existents.
-- delete.blade.php: confirmació per eliminar vídeos.
-- Vista de vídeos a la pàgina principal: Es va crear la vista index.blade.php per mostrar tots els vídeos de manera semblant a YouTube, amb enllaços per veure el detall de cada vídeo.
+- Creació de les vistes per al CRUD de vídeos, amb accés restringit només als usuaris amb els permisos adequats. Les vistes creades són:
 
-- Modificació de tests:
+- resources/views/videos/manage/index.blade.php
+- resources/views/videos/manage/create.blade.php
+- resources/views/videos/manage/edit.blade.php
+- resources/views/videos/manage/delete.blade.php
+- A la vista index.blade.php, s'ha afegit la taula del CRUD de vídeos per gestionar-los.
 
-- Es va modificar el test user_with_permissions_can_manage_videos() per assegurar-se que els vídeos estiguin correctament gestionats.
-- Es van crear nous tests per comprovar el comportament de l'aplicació amb diferents tipus d'usuari.
-- Afegir permisos per la gestió de vídeos: Es van afegir els permisos per a la gestió de vídeos als helpers i es van assignar als usuaris corresponents.
+- A la vista create.blade.php, s'ha afegit un formulari per crear vídeos, utilitzant l'atribut data-qa per facilitar la identificació en els testos.
 
-- Afegir funcions de test a VideosManageControllerTest: Es van crear tests per verificar que els usuaris amb permisos poden afegir, actualitzar i eliminar vídeos.
+- A la vista edit.blade.php, s'ha afegit la taula per editar vídeos.
 
-- Creació de rutes per al CRUD de vídeos: Les rutes per al CRUD de vídeos es van protegir amb els permisos corresponents, assegurant que només els usuaris autenticats i amb permisos puguin accedir-hi.
+- A la vista delete.blade.php, s'ha afegit una confirmació d'eliminació dels vídeos.
 
-- Navbar i footer: Es va afegir un navbar i un footer a la plantilla resources/layouts/videosapp, permetent la navegació entre pàgines.
+- Creació de la vista resources/views/videos/index.blade.php on es mostren tots els vídeos, similar a la pàgina principal de YouTube, amb enllaços que porten al detall de cada vídeo (funció show() del sprint anterior).
 
-- Actualització de la documentació: Es va afegir la informació corresponent d’aquest sprint a la documentació del projecte en resources/markdown/terms.
+- Modificació del test user_with_permissions_can_manage_videos() per assegurar que es creen 3 vídeos en les proves.
 
-- Revisió de codi amb Larastan: Es va revisar el codi mitjançant Larastan per assegurar la seva qualitat i seguretat.
+- Creació dels permisos per al CRUD de vídeos a helpers i assignació dels mateixos als usuaris corresponents.
+
+- A VideoTest, creació de les funcions de test següents:
+
+- user_without_permissions_can_see_default_videos_page()
+- user_with_permissions_can_see_default_videos_page()
+- not_logged_users_can_see_default_videos_page()
+- A VideosManageControllerTest, creació de les següents funcions de test:
+
+- loginAsVideoManager()
+- loginAsSuperAdmin()
+- loginAsRegularUser()
+- user_with_permissions_can_see_add_videos()
+- user_without_videos_manage_create_cannot_see_add_videos()
+- user_with_permissions_can_store_videos()
+- user_without_permissions_cannot_store_videos()
+- user_with_permissions_can_destroy_videos()
+- user_without_permissions_cannot_destroy_videos()
+- user_with_permissions_can_see_edit_videos()
+- user_without_permissions_cannot_see_edit_videos()
+- user_with_permissions_can_update_videos()
+- user_without_permissions_cannot_update_videos()
+- user_with_permissions_can_manage_videos()
+- regular_users_cannot_manage_videos()
+- guest_users_cannot_manage_videos()
+- superadmins_can_manage_videos()
+- Creació de les rutes de videos/manage per al CRUD de vídeos, amb els corresponents middlewares per garantir que les rutes del CRUD només es mostren si l'usuari està logejat, mentre que la ruta per a l'índex de vídeos es pot veure tant si l'usuari està logejat com si no.
+
+- Afegit el navbar i el footer a la plantilla resources/layouts/videosapp, per permetre la navegació entre pàgines.
+
+- Afegit a resources/markdown/terms un resum de les tasques realitzades durant aquest sprint.
+
+- Comprovació de tot el codi creat mitjançant Larastan per garantir la qualitat i seguretat del mateix.
+
+## Sprint 5
+
+- En aquest sprint s'han realitzat les següents tasques principals:
+
+- Correcció d'errors del 4t sprint per garantir el correcte funcionament de les funcionalitats.
+
+- Afegida del camp user_id a la taula de vídeos per identificar quin usuari ha creat cada vídeo. Això ha requerit modificar el model, controller, i helpers corresponents per assegurar que s'assigni correctament aquest camp en crear un vídeo.
+
+- Revisió i correcció dels errors que podrien haver afectat els tests d'un sprint anterior en modificar el codi.
+
+- Creació del UsersManageController amb les funcions: testedBy(), index(), store(), edit(), update(), delete(), i destroy() per gestionar els usuaris.
+
+- Creació de les funcions index() i show() al UsersController per permetre la visualització dels usuaris i els seus vídeos.
+
+- Creació de les vistes per al CRUD d'usuaris amb accés restringit només als usuaris amb els permisos adequats. Les vistes creades són:
+
+- resources/views/users/manage/index.blade.php
+- resources/views/users/manage/create.blade.php
+- resources/views/users/manage/edit.blade.php
+- resources/views/users/manage/delete.blade.php
+- A la vista index.blade.php, s'ha afegit la taula del CRUD d'usuaris per gestionar-los.
+
+- A la vista create.blade.php, s'ha afegit un formulari per crear usuaris, utilitzant l'atribut data-qa per facilitar la identificació en els testos.
+
+- A la vista edit.blade.php, s'ha afegit la taula per editar usuaris.
+
+- A la vista delete.blade.php, s'ha afegit una confirmació d'eliminació dels usuaris.
+
+- Creació de la vista resources/views/users/index.blade.php on es mostren tots els usuaris amb possibilitat de cercar-los, i al clicar sobre un usuari, es visualitza el seu detall i els seus vídeos.
+
+- Creació dels permisos per a la gestió d'usuaris per al CRUD i assignació d'aquests permisos als usuaris superadmin a helpers.
+
+- A UserTest, creació de les funcions de test següents:
+
+- user_without_permissions_can_see_default_users_page()
+- user_with_permissions_can_see_default_users_page()
+- not_logged_users_cannot_see_default_users_page()
+- user_without_permissions_can_see_user_show_page()
+- user_with_permissions_can_see_user_show_page()
+- not_logged_users_cannot_see_user_show_page()
+- A UsersManageControllerTest, creació de les següents funcions de test:
+
+- loginAsVideoManager()
+- loginAsSuperAdmin()
+- loginAsRegularUser()
+- user_with_permissions_can_see_add_users()
+- user_without_users_manage_create_cannot_see_add_users()
+- user_with_permissions_can_store_users()
+- user_without_permissions_cannot_store_users()
+- user_with_permissions_can_destroy_users()
+- user_without_permissions_cannot_destroy_users()
+- user_with_permissions_can_see_edit_users()
+- user_without_permissions_cannot_see_edit_users()
+- user_with_permissions_can_update_users()
+- user_without_permissions_cannot_update_users()
+- user_with_permissions_can_manage_users()
+- regular_users_cannot_manage_users()
+- guest_users_cannot_manage_users()
+- superadmins_can_manage_users()
+- Creació de les rutes de users/manage per al CRUD d'usuaris, amb els corresponents middlewares per garantir que les rutes del CRUD només es mostren si l'usuari està logejat, mentre que les rutes d'índex i show són accessibles tant si l'usuari està logejat com si no.
+
+- S'ha afegit la funcionalitat per permetre la navegació entre pàgines.
+
+- Afegit a resources/markdown/terms un resum de les tasques realitzades durant aquest sprint.
+
+- Comprovació de tot el codi creat mitjançant Larastan per garantir la qualitat i seguretat del mateix.

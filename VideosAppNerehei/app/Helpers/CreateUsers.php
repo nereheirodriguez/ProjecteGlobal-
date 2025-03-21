@@ -12,8 +12,6 @@ use Spatie\Permission\Models\Role;
 
 class CreateUsers
 {
-
-    //DOCUMENTAR PUNT 12
     static public function creacioUsuariDefecte(array $user)
     {
         Validator::make($user, [
@@ -105,7 +103,7 @@ class CreateUsers
 
         foreach ($permissions as $perm) {
             if (!Permission::where('name', $perm)->exists()) {
-                Permission::create(['name' => $perm]);
+                Permission::firstOrCreate(['name' => $perm]);
             }
         }
 

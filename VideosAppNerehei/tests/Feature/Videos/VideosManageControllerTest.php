@@ -26,13 +26,12 @@ class VideosManageControllerTest extends TestCase
         $videoDefault = video_helpers::createFirstVideo();
     }
 
-    //DOCUMENTAR PUNTS 13 I 14
 
     use RefreshDatabase;
-//DOCUMENTAR PUNT 11
+
     public function test_user_with_permissions_can_manage_videos()
     {
-        // Crea un usuario con permisos para gestionar videos
+        // Crea un usuari amb permisos per gestionar videos
         $user = CreateUsers::create_video_manager_user();
         $user->givePermissionTo("video_manager");
         $this->actingAs($user);
@@ -187,7 +186,7 @@ class VideosManageControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_user_without_permissions_cannot_see_edit_videos()
+    public function test_user_without_permissions_cannot_see_ed_it_videos()
     {
         $user = CreateUsers::create_regular_user();
         $this->actingAs($user);
