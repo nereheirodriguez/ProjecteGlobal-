@@ -1,0 +1,12 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: 0
+    paths:
+        - app
+        - database
+        - tests
+    ignoreErrors:
+        # Update or remove this pattern
+        - '#Some ignored error pattern#'
