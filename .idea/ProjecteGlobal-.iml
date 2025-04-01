@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/VIdeosAppNerehei/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
       <sourceFolder url="file://$MODULE_DIR$/VIdeosAppNerehei/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
       <sourceFolder url="file://$MODULE_DIR$/VIdeosAppNerehei/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/VideosAppNerehei/VideosAppNerehei" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/VIdeosAppNerehei/vendor/bacon/bacon-qr-code" />
       <excludeFolder url="file://$MODULE_DIR$/VIdeosAppNerehei/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/VIdeosAppNerehei/vendor/carbonphp/carbon-doctrine-types" />
