@@ -99,6 +99,7 @@ class CreateUsers
         $permissions = [
             'super_admin',
             'video_manager',
+            'serie_manager'
         ];
 
         foreach ($permissions as $perm) {
@@ -116,8 +117,14 @@ class CreateUsers
         if (!$adminRole->hasPermissionTo('video_manager')) {
             $adminRole->givePermissionTo('video_manager');
         }
+        if (!$adminRole->hasPermissionTo('serie_manager')) {
+            $adminRole->givePermissionTo('serie_manager');
+        }
         if (!$videoManagerRole->hasPermissionTo('video_manager')) {
             $videoManagerRole->givePermissionTo('video_manager');
+        }
+        if (!$videoManagerRole->hasPermissionTo('serie_manager')) {
+            $videoManagerRole->givePermissionTo('serie_manager');
         }
     }
 }

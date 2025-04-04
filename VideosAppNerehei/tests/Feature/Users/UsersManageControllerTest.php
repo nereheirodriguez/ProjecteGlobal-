@@ -57,6 +57,7 @@ class UsersManageControllerTest extends TestCase
             'name' => 'Test User',
             'email' => 'test@gmail.com',
             'password' => '123456789',
+            'role' => 'regular',
         ]);
         $response->assertStatus(302);
 

@@ -17,9 +17,15 @@ class Video extends Model
         'published_at',
         'previous',
         'next',
-        'user_id'
+        'user_id',
+        'serie_id'
+
     ];
 
+    public function series()
+    {
+        return $this->belongsTo(Serie::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

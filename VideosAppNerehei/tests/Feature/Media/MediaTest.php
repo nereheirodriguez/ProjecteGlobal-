@@ -24,7 +24,6 @@ class MediaTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(3);
     }
-
     public function test_it_can_store_a_multimedia_file()
     {
         Storage::fake('local');
@@ -33,12 +32,13 @@ class MediaTest extends TestCase
         $file = UploadedFile::fake()->image('photo.jpg');
 
         $response = $this->postJson('/api/media', [
-            'user_id' => $user->id,
-            'file' => $file,
+            'files' => [$file],
         ]);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'path']);
+            ->assertJsonStructure([
+                '*' => ['id', 'path']
+            ]);
 
         Storage::disk('local')->assertExists('Media/' . $file->hashName());
     }

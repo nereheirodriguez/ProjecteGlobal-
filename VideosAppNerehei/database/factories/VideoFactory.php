@@ -19,7 +19,7 @@ class VideoFactory extends Factory
             'published_at' => now(),
             'previous' => null,
             'next' => null,
-            'series_id' => null,
+            'serie_id' => null,
         ];
     }
 }

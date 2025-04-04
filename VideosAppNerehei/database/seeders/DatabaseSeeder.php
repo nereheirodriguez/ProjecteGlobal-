@@ -36,5 +36,7 @@ class DatabaseSeeder extends Seeder
         video_helpers::createFirstVideo();
         video_helpers::createSecondVideo();
         video_helpers::createThirdVideo();
+
+        video_helpers::create_series();
     }
 }

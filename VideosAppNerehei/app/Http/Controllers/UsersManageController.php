@@ -25,11 +25,17 @@ class UsersManageController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'password' => 'required|string',
+            'role' => 'required|string|in:,super_admin,video_manager,regular',
         ]);
 
         $validatedData['password'] = bcrypt($validatedData['password']);
 
         $user = User::create($validatedData);
+
+        if ($validatedData['role'] !== 'regular') {
+            $user->assignRole($validatedData['role']);
+        }
+
         return redirect()->route('users.show', $user->id);
     }
 

@@ -37,6 +37,9 @@
                         <a href="{{ route('manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                             Gestionar Videos
                         </a>
+                        <a href="{{ route('series.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Gestionar series
+                        </a>
                     @endcan
 
                     @can('super_admin')
@@ -44,11 +47,14 @@
                             <a href="{{ route('users.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                                 Gestionar usuarios
                             </a>
-
                     @endcan
+
                     <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                         Llista usuaris
                     </a>
+                        <a href="{{ route('serie.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Ver series
+                        </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 rounded">

@@ -25,6 +25,7 @@ class VideosManagerController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'url' => 'required|url',
+            'serie_id' => 'nullable|exists:series,id',
 
         ]);
 
@@ -48,6 +49,7 @@ class VideosManagerController extends Controller
             'description' => 'required|string',
             'url' => 'required|url',
             'published_at' => 'nullable|date',
+            'serie_id' => 'nullable|exists:series,id',
         ]);
 
         $video = Video::findOrFail($id);
