@@ -46,3 +46,26 @@ Aquest treball permet establir una base sòlida per a continuar desenvolupant fu
 - VideosManageControllerTest a tests/Feature/Videos, amb proves sobre la gestió de vídeos segons els permisos.
 - UserTest a tests/Unit, per comprovar la funció isSuperAdmin().
 - Verificació de codi amb Larastan per garantir qualitat i seguretat.
+
+## Sprint 6
+- Durant aquest sprint he corregit errors pendents del sprint anterior i m’he assegurat que tots els tests funcionin correctament després de les modificacions
+
+- He modificat el model de vídeos per afegir la relació amb sèries i he implementat la funcionalitat perquè els usuaris regulars puguin fer CRUD de vídeos amb les seves vistes corresponents
+
+- He creat la migració de les sèries amb els camps indicats i el seu model amb les funcions testedBy, videos, i els accessors formats per a la data
+
+- He implementat dos controladors: el SeriesManageController per a la gestió de sèries amb totes les funcions del CRUD, i el SeriesController per mostrar l’índex i el detall públic de cada sèrie
+
+- He creat les vistes necessàries per al CRUD de sèries i la vista pública on es poden veure totes les sèries i navegar-hi, amb un enllaç als vídeos de cada sèrie
+
+- He afegit la funció create_series() al helper per generar 3 sèries automàticament amb usuaris generats per fàbrica
+
+- He creat els permisos de gestió de sèries i els he assignat als rols super_admin i video_manager
+
+- He afegit els tests al fitxer SerieTest per comprovar la relació entre sèrie i vídeos
+
+- He creat un test funcional SeriesManageControllerTest amb autenticació de diferents tipus d’usuaris i proves d’accés a les funcionalitats del CRUD segons els permisos
+
+- He afegit totes les rutes protegides per middleware per a la gestió de sèries i per a mostrar les vistes públiques d’aquestes només quan l’usuari està logejat
+
+- He revisat tots els fitxers creats amb Larastan per assegurar la qualitat del codi i el compliment de bones pràctiques

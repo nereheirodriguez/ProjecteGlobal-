@@ -32,6 +32,11 @@ class UsersManageController extends Controller
 
         $user = User::create($validatedData);
 
+        $user->ownedTeams()->create([
+            'name' => "{$user->name}'s Team",
+            'personal_team' => true,
+        ]);
+
         if ($validatedData['role'] !== 'regular') {
             $user->assignRole($validatedData['role']);
         }
@@ -50,11 +55,16 @@ class UsersManageController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
+            'role' => 'required|string|in:,super_admin,video_manager,regular',
+
         ]);
 
 
         $user = User::findOrFail($id);
         $user->update($validatedData);
+        if ($validatedData['role'] !== 'regular') {
+            $user->assignRole($validatedData['role']);
+        }
         return redirect()->route('users.manage.index', $user->id);
     }
 
