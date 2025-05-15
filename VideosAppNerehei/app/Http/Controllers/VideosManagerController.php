@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VideoCreated;
+use App\Events\VideoEvent;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +35,8 @@ class VideosManagerController extends Controller
         $validatedData['user_id'] = Auth::id();
 
         $video = Video::create($validatedData);
+        event(new VideoEvent($video));
+
         return redirect()->route('videos.show', $video->id);
     }
 

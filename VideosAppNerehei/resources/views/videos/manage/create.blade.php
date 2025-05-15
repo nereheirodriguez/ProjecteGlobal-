@@ -44,8 +44,8 @@
             </div>
 
             <div>
-                <label for="series_id" class="block text-sm font-medium text-gray-700">ID de la Serie</label>
-                <input type="number" name="series_id" id="series_id" value="{{ old('series_id') }}"
+                <label for="serie_id" class="block text-sm font-medium text-gray-700">ID de la Serie</label>
+                <input type="number" name="serie_id" id="serie_id" value="{{ old('serie_id') }}"
                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
             </div>
 

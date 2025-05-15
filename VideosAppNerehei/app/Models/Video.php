@@ -30,6 +30,10 @@ class Video extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function serie()
+    {
+        return $this->belongsTo(Serie::class);
+    }
     protected $dates = ['published_at'];
 
     public function getFormattedPublishedAtAttribute()

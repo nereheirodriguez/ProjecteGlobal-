@@ -14,6 +14,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/notifications', function () {
+    return view('notifications');
+});
+
+
 
 Route::middleware([
     'auth:sanctum',
@@ -28,6 +33,21 @@ Route::middleware([
         Route::put('/series_manage/{id}', [SeriesManageController::class, 'update'])->name('series.manage.update');
         Route::get('/series_manage/{id}/delete', [SeriesManageController::class, 'delete'])->name('series.manage.delete');
         Route::delete('/series_manage/{id}', [SeriesManageController::class, 'destroy'])->name('series.manage.destroy');
+    });
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/series/create', [SeriesManageController::class, 'create'])->name('series.create');
+        Route::post('/series', [SeriesManageController::class, 'store'])->name('series.store');
+        Route::get('/series/{id}/edit', [SeriesManageController::class, 'edit'])->name('series.edit');
+        Route::put('/series/{id}', [SeriesManageController::class, 'update'])->name('series.update');
+        Route::get('/series/{id}/delete', [SeriesManageController::class, 'delete'])->name('series.delete');
+        Route::delete('/series/{id}', [SeriesManageController::class, 'destroy'])->name('series.destroy');
     });
 });
 

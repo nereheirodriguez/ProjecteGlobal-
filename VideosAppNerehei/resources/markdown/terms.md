@@ -69,3 +69,38 @@ Aquest treball permet establir una base sòlida per a continuar desenvolupant fu
 - He afegit totes les rutes protegides per middleware per a la gestió de sèries i per a mostrar les vistes públiques d’aquestes només quan l’usuari està logejat
 
 - He revisat tots els fitxers creats amb Larastan per assegurar la qualitat del codi i el compliment de bones pràctiques
+
+
+## Sprint 7
+- He corregit els errors detectats durant el Sprint 6 i m’he assegurat que els tests dels sprints anteriors funcionin correctament després de les modificacions.
+
+- He afegit la funcionalitat perquè els usuaris regulars puguin crear sèries i afegir vídeos a aquestes, si tenen els permisos corresponents.
+
+- He creat l’event VideoCreated amb el constructor i la funció broadcastOn() per transmetre l’event via broadcast.
+
+- Al VideoController, he fet que l’event VideoCreated es dispari correctament quan es crea un nou vídeo.
+
+- He implementat el listener SendVideoCreatedNotification amb la funció handle(VideoCreated $event), que envia un correu als administradors i envia la notificació VideoCreated amb informació del vídeo.
+
+- He creat i configurat app/Providers/EventServiceProvider.php, registrant-hi l’event VideoCreated i el seu listener corresponent.
+
+- M’he registrat a Mailtrap per utilitzar el seu servidor SMTP, i he configurat el fitxer .env amb les credencials corresponents.
+
+- També m’he registrat a Pusher i he configurat les seves credencials al fitxer .env, i he verificat que el fitxer config/broadcasting.php estigui configurat correctament per utilitzar Pusher com a driver per defecte.
+
+- A l’event App\Events\VideoCreated, he afegit la funció broadcastAs() i he comprovat que implementa la interfície ShouldBroadcast.
+
+- Al SendVideoCreatedNotification, m’he assegurat que Pusher transmet correctament l’event de notificació.
+
+- Al controlador, també he disparat l’event perquè s’enviï la notificació push via Pusher.
+
+- He instal·lat les dependències laravel-echo i pusher-js via npm, i he configurat Laravel Echo a resources/js/bootstrap.js.
+
+- He creat la vista de notificacions push perquè els usuaris puguin veure les notificacions rebudes en temps real, i he implementat l’escolta d’events a través d’Echo.
+
+- He creat la ruta per accedir a les notificacions de vídeos.
+
+- He afegit els tests test_video_created_event_is_dispatched() i test_push_notification_is_sent_when_video_is_created() al fitxer VideoNotificationsTest per verificar el comportament correcte dels events i les notificacions push.
+
+- He verificat tots els fitxers creats amb Larastan per assegurar la qualitat del codi i el compliment de les bones pràctiques.
+
