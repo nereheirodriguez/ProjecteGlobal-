@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">Gestión de Videos</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Gestión de Usuarios</h1>
         <a href="{{ route('users.manage.create') }}"
            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
             Crear un usuario
