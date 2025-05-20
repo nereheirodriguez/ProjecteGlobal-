@@ -2,38 +2,26 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">Todos los Videos</h1>
-            <div class="flex justify-end mb-4">
-                <a href="{{ route('manage.user.create') }}" style="background-color: blue; padding: 0.5rem 1rem; border-radius: 0.25rem;" class=" text-white">
-                    Crear Video
-                </a>
-            </div>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">Todos los Videos</h1>
+            <a href="{{ route('manage.user.create') }}"
+               class="inline-flex items-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-gray-900 bg-lime-400 hover:bg-lime-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-lime-500">
+                Crear Video
+            </a>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($videos as $video)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <a href="{{ route('videos.show', $video->id) }}" class="block">
-                        <div class="aspect-w-16 aspect-h-9">
-                        </div>
-                        <div class="p-4">
-                            <h2 class="text-lg font-semibold text-gray-900 line-clamp-2">{{ $video->title }}</h2>
-                            <p class="mt-1 text-sm text-gray-500">
-                            </p>
-                            <p class="mt-2 text-sm text-gray-600 line-clamp-2">{{ $video->description }}</p>
-                        </div>
-                    </a>
-                    @if(auth()->check() && $video->user_id == auth()->id())
-                        <div class="p-4 flex justify-between">
-                            <a href="{{ route('manage.user.edit', $video->id) }}" class="text-blue-500 hover:underline">Editar</a>
-                            <form action="{{ route('manage.user.destroy', $video->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este video?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:underline">Borrar</button>
-                            </form>
-                        </div>
-                    @endif
-                </div>
+                <x-card
+                    :title="$video->title"
+                    :description="$video->description"
+                    :link="route('videos.show', $video->id)"
+                    type="video"
+                    :actions="auth()->check() && $video->user_id == auth()->id() ? [
+                        ['type' => 'link', 'label' => 'Editar', 'url' => route('manage.user.edit', $video->id), 'class' => 'text-black bg-amber-500 hover:bg-amber-600'],
+                        ['type' => 'form', 'label' => 'Borrar', 'url' => route('manage.user.destroy', $video->id), 'method' => 'DELETE', 'class' => 'text-white bg-red-600 hover:bg-red-700', 'confirm' => '¿Estás seguro de que deseas eliminar este video?']
+                    ] : []"
+                />
             @endforeach
         </div>
-
     </div>
 @endsection

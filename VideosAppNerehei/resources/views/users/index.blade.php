@@ -2,65 +2,27 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6">Todos los Usuarios</h1>
-
-        <!-- Taula per a pantalles grans -->
-        <div class="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
-            <table class="w-full min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nombre
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Email
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Acciones
-                    </th>
-                </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($users as $user)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">{{ $user->email }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('users.show', $user->id) }}" class="text-indigo-600 hover:text-indigo-900">
-                                Ver detalles
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">Gestión de Usuarios</h1>
+            <a href="{{ route('users.manage.create') }}"
+               class="inline-flex items-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-gray-900 bg-lime-400 hover:bg-lime-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-lime-500">
+                Crear un usuario
+            </a>
         </div>
-
-        <!-- Llista per a mòbil -->
-        <div class="md:hidden bg-white rounded-lg shadow-md divide-y divide-gray-200">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             @foreach($users as $user)
-                <div class="p-4">
-                    <div class="mb-2">
-                        <span class="text-xs font-medium text-gray-500 uppercase">Nombre</span>
-                        <p class="text-sm font-medium text-gray-900">{{ $user->name }}</p>
-                    </div>
-                    <div class="mb-2">
-                        <span class="text-xs font-medium text-gray-500 uppercase">Email</span>
-                        <p class="text-sm text-gray-500">{{ $user->email }}</p>
-                    </div>
-                    <div>
-                        <span class="text-xs font-medium text-gray-500 uppercase">Acciones</span>
-                        <p class="text-sm font-medium">
-                            <a href="{{ route('users.show', $user->id) }}" class="text-indigo-600 hover:text-indigo-900">
-                                Ver detalles
-                            </a>
-                        </p>
-                    </div>
-                </div>
+                <x-card
+                    :title="$user->name"
+                    :description="$user->email"
+                    :link="route('users.show', $user->id)"
+                    type="user"
+                    role="{{ $user->role ?? 'regular' }}"
+                    :actions="[
+                        ['type' => 'link', 'label' => 'Ver', 'url' => route('users.show', $user->id), 'class' => 'text-black bg-blue-600 hover:bg-blue-700'],
+                        ['type' => 'link', 'label' => 'Editar', 'url' => route('users.manage.edit', $user->id), 'class' => 'text-black bg-amber-500 hover:bg-amber-600'],
+                        ['type' => 'link', 'label' => 'Eliminar', 'url' => route('users.manage.delete', $user->id), 'class' => 'text-white bg-red-600 hover:bg-red-700']
+                    ]"
+                />
             @endforeach
         </div>
     </div>
