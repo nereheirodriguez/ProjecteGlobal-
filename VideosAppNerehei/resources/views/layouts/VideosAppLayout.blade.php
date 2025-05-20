@@ -20,17 +20,21 @@
                 </svg>
                 <h1 class="text-xl font-bold text-gray-900">Videos App</h1>
             </div>
-            <nav class="flex items-center space-x-4">
+            <!-- Botó del menú hamburguesa per a mòbil -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+            <!-- Menú de navegació per a pantalles grans -->
+            <nav id="desktop-menu" class="hidden md:flex md:items-center md:space-x-4">
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                     Home
                 </a>
-
-
                 @guest
-                    <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-sm">
                         Iniciar Sesión
                     </a>
-
                 @endguest
                 @auth
                     @can('video_manager')
@@ -41,28 +45,65 @@
                             Gestionar series
                         </a>
                     @endcan
-
                     @can('super_admin')
-
-                            <a href="{{ route('users.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                Gestionar usuarios
-                            </a>
+                        <a href="{{ route('users.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Gestionar usuarios
+                        </a>
                     @endcan
-
                     <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                         Llista usuaris
                     </a>
-                        <a href="{{ route('serie.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            Ver series
-                        </a>
+                    <a href="{{ route('serie.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Ver series
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                             Cerrar sesión
                         </button>
                     </form>
                 @endauth
             </nav>
+        </div>
+        <!-- Menú desplegable per a mòbil -->
+        <div id="mobile-menu-content" class="hidden md:hidden bg-white shadow-sm">
+            <div class="flex flex-col space-y-2 px-4 py-4">
+                <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                    Home
+                </a>
+                @guest
+                    <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-sm">
+                        Iniciar Sesión
+                    </a>
+                @endguest
+                @auth
+                    @can('video_manager')
+                        <a href="{{ route('manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Gestionar Videos
+                        </a>
+                        <a href="{{ route('series.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Gestionar series
+                        </a>
+                    @endcan
+                    @can('super_admin')
+                        <a href="{{ route('users.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Gestionar usuarios
+                        </a>
+                    @endcan
+                    <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Llista usuaris
+                    </a>
+                    <a href="{{ route('serie.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Ver series
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                @endauth
+            </div>
         </div>
     </div>
 </header>
@@ -75,7 +116,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="text-gray-500 text-sm">
-                &copy; {{ date('Y') }} Videos App. Todos los derechos reservados.
+                © {{ date('Y') }} Videos App. Todos los derechos reservados.
             </div>
             <div class="mt-4 md:mt-0 flex space-x-6">
                 <a href="#" class="text-gray-400 hover:text-gray-500">
@@ -100,5 +141,13 @@
         </div>
     </div>
 </footer>
+
+<script>
+    // Gestionar l'obertura i tancament del menú desplegable en mode mòbil
+    document.getElementById('mobile-menu-button').addEventListener('click', () => {
+        const menu = document.getElementById('mobile-menu-content');
+        menu.classList.toggle('hidden');
+    });
+</script>
 </body>
 </html>
