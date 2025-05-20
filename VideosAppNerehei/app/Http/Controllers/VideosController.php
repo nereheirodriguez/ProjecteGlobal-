@@ -7,6 +7,7 @@ use App\Models\Video;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class VideosController extends Controller
 {
@@ -16,25 +17,19 @@ class VideosController extends Controller
         return view('videos.show', compact('video'));
     }
 
-    /**
-     * Display the test class for videos tested by a specific user.
-     *
-     * @param  int  $userId
-     * @return \Illuminate\Http\Response
-     */
     public function testedBy($userId)
     {
-        // Obtenim els tests realitzats per l'usuari
         $tests = Test::where('tested_by', $userId)->get();
-
         return response()->json($tests);
     }
+
     public function index()
     {
         $videos = Video::all();
         $user = Auth::user();
         return view('videos.index', compact('videos', 'user'));
     }
+
     public function create()
     {
         return view('videos.normaluser.create');
@@ -42,21 +37,26 @@ class VideosController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'url' => 'required|url',
-            'serie_id' => 'nullable|exists:series,id',
+        try {
+            $validatedData = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'url' => 'required|url',
+                'serie_id' => 'nullable|exists:series,id',
+            ]);
 
-        ]);
+            $validatedData['published_at'] = now();
+            $validatedData['user_id'] = Auth::id();
 
-        $validatedData['published_at'] = now();
-        $validatedData['user_id'] = Auth::id();
+            $video = Video::create($validatedData);
+            event(new VideoEvent($video));
 
-        $video = Video::create($validatedData);
-        event(new VideoEvent($video));
-
-        return redirect()->route('videos.show', $video->id);
+            return redirect()->route('videos.show', $video->id)
+                ->with('success', "S’ha creat el vídeo ‘{$video->title}’!");
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', "Error al crear el vídeo: {$e->getMessage()}");
+        }
     }
 
     public function edit($id)
@@ -67,27 +67,43 @@ class VideosController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'url' => 'required|url',
-            'published_at' => 'nullable|date',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'url' => 'required|url',
+                'published_at' => 'nullable|date',
+            ]);
 
-        $video = Video::findOrFail($id);
-        $video->update($validatedData);
-        return redirect()->route('home', $video->id);
+            $video = Video::findOrFail($id);
+            $video->update($validatedData);
+
+            return redirect()->route('home')
+                ->with('success', "S’ha editat el vídeo ‘{$video->title}’!");
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', "Error al editar el vídeo: {$e->getMessage()}");
+        }
     }
 
     public function delete($id)
     {
-        $video = Video::findOrFail($id);return view('videos.normaluser.delete', compact('video'));
+        $video = Video::findOrFail($id);
+        return view('videos.normaluser.delete', compact('video'));
     }
 
     public function destroy($id)
     {
-        $video = Video::findOrFail($id);
-        $video->delete();
-        return redirect()->route('home');
+        try {
+            $video = Video::findOrFail($id);
+            $title = $video->title;
+            $video->delete();
+
+            return redirect()->route('home')
+                ->with('success', "S’ha eliminat el vídeo ‘{$title}’!");
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', "Error al eliminar el vídeo: {$e->getMessage()}");
+        }
     }
 }

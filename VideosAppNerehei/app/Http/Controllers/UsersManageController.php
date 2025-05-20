@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Exception;
 
 class UsersManageController extends Controller
 {
@@ -21,27 +22,32 @@ class UsersManageController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'password' => 'required|string',
-            'role' => 'required|string|in:,super_admin,video_manager,regular',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:8',
+                'role' => 'required|string|in:super_admin,video_manager,regular',
+            ]);
 
-        $validatedData['password'] = bcrypt($validatedData['password']);
+            $validatedData['password'] = bcrypt($validatedData['password']);
+            $user = User::create($validatedData);
 
-        $user = User::create($validatedData);
+            $user->ownedTeams()->create([
+                'name' => "{$user->name}'s Team",
+                'personal_team' => true,
+            ]);
 
-        $user->ownedTeams()->create([
-            'name' => "{$user->name}'s Team",
-            'personal_team' => true,
-        ]);
+            if ($validatedData['role'] !== 'regular') {
+                $user->assignRole($validatedData['role']);
+            }
 
-        if ($validatedData['role'] !== 'regular') {
-            $user->assignRole($validatedData['role']);
+            return redirect()->route('users.show', $user->id)
+                ->with('success', "S’ha creat l’usuari ‘{$user->name}’!");
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', "Error al crear l’usuari: {$e->getMessage()}");
         }
-
-        return redirect()->route('users.show', $user->id);
     }
 
     public function edit($id)
@@ -52,20 +58,28 @@ class UsersManageController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'role' => 'required|string|in:,super_admin,video_manager,regular',
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $id,
+                'role' => 'required|string|in:super_admin,video_manager,regular',
+            ]);
 
-        ]);
+            $user = User::findOrFail($id);
+            $user->update($validatedData);
 
+            if ($validatedData['role'] !== 'regular') {
+                $user->syncRoles([$validatedData['role']]);
+            } else {
+                $user->syncRoles([]);
+            }
 
-        $user = User::findOrFail($id);
-        $user->update($validatedData);
-        if ($validatedData['role'] !== 'regular') {
-            $user->assignRole($validatedData['role']);
+            return redirect()->route('users.manage.index')
+                ->with('success', "S’ha editat l’usuari ‘{$user->name}’!");
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', "Error al editar l’usuari: {$e->getMessage()}");
         }
-        return redirect()->route('users.manage.index', $user->id);
     }
 
     public function delete($id)
@@ -76,8 +90,16 @@ class UsersManageController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->route('users.manage.index');
+        try {
+            $user = User::findOrFail($id);
+            $name = $user->name;
+            $user->delete();
+
+            return redirect()->route('users.manage.index')
+                ->with('success', "S’ha eliminat l’usuari ‘{$name}’!");
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', "Error al eliminar l’usuari: {$e->getMessage()}");
+        }
     }
 }

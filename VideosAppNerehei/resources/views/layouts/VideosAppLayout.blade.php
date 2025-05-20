@@ -108,6 +108,48 @@
     </div>
 </header>
 
+<!-- Component de missatges flash -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    @if (session('success'))
+        <div x-data="{ show: true }" x-show="show" x-cloak
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg mb-4 flex justify-between items-center">
+            <span>{{ session('success') }}</span>
+            <button @click="show = false" class="text-white hover:text-gray-200">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <script>
+            setTimeout(() => {
+                document.querySelector('[x-data="{ show: true }"]').setAttribute('x-show', 'false');
+            }, 5000);
+        </script>
+    @endif
+    @if (session('error'))
+        <div x-data="{ show: true }" x-show="show" x-cloak
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg mb-4 flex justify-between items-center">
+            <span>{{ session('error') }}</span>
+            <button @click="show = false" class="text-white hover:text-gray-200">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <script>
+            setTimeout(() => {
+                document.querySelector('[x-data="{ show: true }"]').setAttribute('x-show', 'false');
+            }, 5000);
+        </script>
+    @endif
+</div>
+
 <main class="flex-grow py-6">
     @yield('content')
 </main>
