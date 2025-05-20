@@ -32,7 +32,7 @@
                     Home
                 </a>
                 @guest
-                    <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-blue-600" style="background-color: #3B82F6; color: #111827;">
                         Iniciar Sesión
                     </a>
                 @endguest
@@ -58,7 +58,7 @@
                     </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-red-600" style="background-color: #EF4444; color: #111827;">
                             Cerrar sesión
                         </button>
                     </form>
@@ -72,7 +72,7 @@
                     Home
                 </a>
                 @guest
-                    <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-blue-600" style="background-color: #3B82F6; color: #111827;">
                         Iniciar Sesión
                     </a>
                 @endguest
@@ -98,7 +98,7 @@
                     </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-red-600" style="background-color: #EF4444; color: #111827;">
                             Cerrar sesión
                         </button>
                     </form>

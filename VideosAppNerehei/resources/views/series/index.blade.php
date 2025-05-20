@@ -5,7 +5,7 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-900">Todas las Series</h1>
             <a href="{{ route('series.create') }}"
-               class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+               class="bg-lime-400 hover:bg-lime-500 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-lime-500" style="background-color: #A3E635; color: #111827;">
                 Crear Serie
             </a>
         </div>
