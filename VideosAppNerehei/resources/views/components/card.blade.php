@@ -7,7 +7,7 @@
     'type' => 'default', // 'series', 'video', 'user'
 ])
 
-<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+<div class="bg-white rounded-lg shadow-lg hover:shadow-xl overflow-hidden transition-transform hover:scale-105">
     <a href="{{ $link }}" class="block">
         @if ($image && $type === 'series')
             <div class="aspect-w-16 aspect-h-9">
