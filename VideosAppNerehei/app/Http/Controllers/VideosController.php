@@ -78,7 +78,7 @@ class VideosController extends Controller
             $video = Video::findOrFail($id);
             $video->update($validatedData);
 
-            return redirect()->route('home')
+            return redirect()->route('videos.index')
                 ->with('success', "S’ha editat el vídeo ‘{$video->title}’!");
         } catch (Exception $e) {
             return redirect()->back()
@@ -99,7 +99,7 @@ class VideosController extends Controller
             $title = $video->title;
             $video->delete();
 
-            return redirect()->route('home')
+            return redirect()->route('videos.index')
                 ->with('success', "S’ha eliminat el vídeo ‘{$title}’!");
         } catch (Exception $e) {
             return redirect()->back()
