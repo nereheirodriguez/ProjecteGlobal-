@@ -1,9 +1,9 @@
 @extends('layouts.VideosAppLayout')
 
 @section('content')
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto container-padding">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-900"></h1>
+            <h1 class="text-3xl font-bold text-gray-900">Llista d'Usuaris</h1>
             <a href="{{ route('users.manage.create') }}"
                class="inline-flex items-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-gray-900 bg-lime-400 hover:bg-lime-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-lime-500">
                 Crear un usuario

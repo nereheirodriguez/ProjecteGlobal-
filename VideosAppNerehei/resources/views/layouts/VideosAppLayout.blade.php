@@ -12,7 +12,7 @@
 </head>
 <body class="min-h-screen bg-gray-50 flex flex-col font-sans">
 <header class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto container-padding">
         <div class="flex justify-between h-16 items-center">
             <div class="flex-shrink-0 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -46,7 +46,7 @@
                      x-transition:leave="ease-in duration-200"
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 translate-y-[-10px]">
-                    <div class="flex flex-col space-y-2 px-4 py-4">
+                    <div class="flex flex-col space-y-4 px-6 py-4">
                         <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                             Home
                         </a>
@@ -128,13 +128,13 @@
 </header>
 
 <!-- Component de missatges flash -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="max-w-7xl mx-auto container-padding">
     @if (session('success'))
         <div x-data="{ show: true }" x-show="show" x-cloak
              x-transition:leave="transition ease-in duration-300"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
-             class="bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg mb-4 flex justify-between items-center">
+             class="bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg mb-6 flex justify-between items-center">
             <span>{{ session('success') }}</span>
             <button @click="show = false" class="text-white hover:text-gray-200">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -148,7 +148,7 @@
              x-transition:leave="transition ease-in duration-300"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
-             class="bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg mb-4 flex justify-between items-center">
+             class="bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg mb-6 flex justify-between items-center">
             <span>{{ session('error') }}</span>
             <button @click="show = false" class="text-white hover:text-gray-200">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -159,12 +159,12 @@
     @endif
 </div>
 
-<main class="flex-grow py-6">
+<main class="flex-grow container-padding">
     @yield('content')
 </main>
 
 <footer class="bg-white border-t border-gray-200 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-7xl mx-auto container-padding">
         <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="text-gray-500 text-sm">
                 © {{ date('Y') }} Videos App. Todos los derechos reservados.
