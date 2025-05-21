@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @livewireStyles
 </head>
 <body class="min-h-screen bg-gray-50 flex flex-col font-sans">
 <header class="bg-white shadow-sm">
@@ -21,13 +22,71 @@
                 <h1 class="text-xl font-bold text-gray-900">Videos App</h1>
             </div>
             <!-- Botó del menú hamburguesa per a mòbil -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
+            <div x-data="{ open: false, hovering: false }" class="md:hidden">
+                <button @click="open = !open" class="text-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+                <!-- Superposició -->
+                <div x-show="open" @click="open = false" class="fixed inset-0 z-40 transition-opacity"
+                     :class="{ 'bg-black bg-opacity-50': !hovering, 'bg-black bg-opacity-75': hovering }"
+                     x-transition:enter="ease-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="ease-in duration-200"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"></div>
+                <!-- Menú desplegable per a mòbil -->
+                <div x-show="open" class="fixed top-16 left-0 w-full bg-white shadow-sm z-50"
+                     @mouseenter="hovering = true" @mouseleave="hovering = false"
+                     x-transition:enter="ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-y-[-10px]"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="ease-in duration-200"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-[-10px]">
+                    <div class="flex flex-col space-y-2 px-4 py-4">
+                        <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Home
+                        </a>
+                        @guest
+                            <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-blue-600" style="background-color: #3B82F6; color: #111827;">
+                                Iniciar Sesión
+                            </a>
+                        @endguest
+                        @auth
+                            @can('video_manager')
+                                <a href="{{ route('manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                    Gestionar Videos
+                                </a>
+                                <a href="{{ route('series.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                    Gestionar series
+                                </a>
+                            @endcan
+                            @can('super_admin')
+                                <a href="{{ route('users.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                    Gestionar usuarios
+                                </a>
+                            @endcan
+                            <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                Llista usuaris
+                            </a>
+                            <a href="{{ route('serie.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                Ver series
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-red-600" style="background-color: #EF4444; color: #111827;">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        @endauth
+                    </div>
+                </div>
+            </div>
             <!-- Menú de navegació per a pantalles grans -->
-            <nav id="desktop-menu" class="hidden md:flex md:items-center md:space-x-4">
+            <nav class="hidden md:flex md:items-center md:space-x-4">
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                     Home
                 </a>
@@ -65,46 +124,6 @@
                 @endauth
             </nav>
         </div>
-        <!-- Menú desplegable per a mòbil -->
-        <div id="mobile-menu-content" class="hidden md:hidden bg-white shadow-sm">
-            <div class="flex flex-col space-y-2 px-4 py-4">
-                <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                    Home
-                </a>
-                @guest
-                    <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-blue-600" style="background-color: #3B82F6; color: #111827;">
-                        Iniciar Sesión
-                    </a>
-                @endguest
-                @auth
-                    @can('video_manager')
-                        <a href="{{ route('manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            Gestionar Videos
-                        </a>
-                        <a href="{{ route('series.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            Gestionar series
-                        </a>
-                    @endcan
-                    @can('super_admin')
-                        <a href="{{ route('users.manage.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            Gestionar usuarios
-                        </a>
-                    @endcan
-                    <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                        Llista usuaris
-                    </a>
-                    <a href="{{ route('serie.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                        Ver series
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-gray-900 px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-115 hover:brightness-110 ring-2 ring-red-600" style="background-color: #EF4444; color: #111827;">
-                            Cerrar sesión
-                        </button>
-                    </form>
-                @endauth
-            </div>
-        </div>
     </div>
 </header>
 
@@ -123,11 +142,6 @@
                 </svg>
             </button>
         </div>
-        <script>
-            setTimeout(() => {
-                document.querySelector('[x-data="{ show: true }"]').setAttribute('x-show', 'false');
-            }, 5000);
-        </script>
     @endif
     @if (session('error'))
         <div x-data="{ show: true }" x-show="show" x-cloak
@@ -142,11 +156,6 @@
                 </svg>
             </button>
         </div>
-        <script>
-            setTimeout(() => {
-                document.querySelector('[x-data="{ show: true }"]').setAttribute('x-show', 'false');
-            }, 5000);
-        </script>
     @endif
 </div>
 
@@ -184,12 +193,7 @@
     </div>
 </footer>
 
-<script>
-    // Gestionar l'obertura i tancament del menú desplegable en mode mòbil
-    document.getElementById('mobile-menu-button').addEventListener('click', () => {
-        const menu = document.getElementById('mobile-menu-content');
-        menu.classList.toggle('hidden');
-    });
-</script>
+@livewireScripts
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
