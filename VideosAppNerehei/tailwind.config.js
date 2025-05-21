@@ -9,17 +9,32 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
-        './resources/js/**/*.vue', // Inclou fitxers Vue.js si els utilitzes
-        './resources/js/**/*.js',  // Inclou fitxers JavaScript
+        './resources/js/**/*.vue',
+        './resources/js/**/*.js',
     ],
-
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primary: '#FF2D20',
+                secondary: '#1E3A8A',
+                accent: '#84CC16',
+                background: {
+                    light: '#F9FAFB',
+                    white: '#FFFFFF',
+                    dark: '#000000',
+                },
+                text: {
+                    primary: '#111827',
+                    secondary: '#6B7280',
+                    muted: '#9CA3AF',
+                    white: '#FFFFFF',
+                },
+                border: '#E5E7EB',
+            },
         },
     },
-
     plugins: [forms, typography],
 };
